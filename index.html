@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ruby Notes | Luxurious Markdown Notepad</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            ruby: {
+              50: '#fef6f6',
+              100: '#fde8e8',
+              200: '#fbd5d5',
+              300: '#f8b4b4',
+              400: '#f38383',
+              500: '#e95656',
+              600: '#d72638',
+              700: '#c11c2e',
+              800: '#9b111e',
+              900: '#7a0e1a',
+            }
+          },
+          fontFamily: {
+            'playfair': ['"Playfair Display"', 'serif'],
+            'mono': ['"JetBrains Mono"', 'monospace'],
+          },
+          boxShadow: {
+            'ruby-glow': '0 0 15px rgba(215, 38, 56, 0.3)',
+            'ruby-glow-lg': '0 0 30px rgba(215, 38, 56, 0.4)',
+          }
+        }
+      }
+    }
+  </script>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom CSS -->
+  <style>
+    .glass {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .dark .glass {
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    .text-editor {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(215, 38, 56, 0.5) transparent;
+    }
+    .text-editor::-webkit-scrollbar {
+      width: 6px;
+    }
+    .text-editor::-webkit-scrollbar-thumb {
+      background-color: rgba(215, 38, 56, 0.5);
+      border-radius: 3px;
+    }
+    .sparkle {
+      animation: sparkle 2s infinite;
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.7; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .hover-sparkle:hover {
+      filter: drop-shadow(0 0 8px rgba(215, 38, 56, 0.7));
+      transition: all 0.3s ease;
+    }
+    .btn-ruby {
+      background: linear-gradient(135deg, #d72638, #9b111e);
+      transition: all 0.3s ease;
+    }
+    .btn-ruby:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(215, 38, 56, 0.4);
+    }
+    .toggle-checkbox:checked {
+      right: 0;
+      background-color: #d72638;
+    }
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: rgba(215, 38, 56, 0.2);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 min-h-screen transition-colors duration-300">
+  <div class="container mx-auto px-4 py-8 max-w-5xl">
+    <!-- Header -->
+    <header class="glass rounded-2xl p-6 mb-8 shadow-lg border border-white/10">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center space-x-3">
+          <svg class="w-8 h-8 text-ruby-600 hover-sparkle" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L5 6V18L12 22L19 18V6L12 2Z" stroke="currentColor" stroke-width="2" fill="rgba(215, 38, 56, 0.1)"/>
+            <path d="M12 6L7 9V15L12 18L17 15V9L12 6Z" fill="rgba(215, 38, 56, 0.2)"/>
+          </svg>
+          <h1 class="text-3xl font-playfair font-bold text-ruby-700 dark:text-ruby-400">Ruby Notes</h1>
+        </div>
+        
+        <!-- Dark Mode Toggle -->
+        <div class="flex items-center space-x-4">
+          <span class="text-sm text-gray-600 dark:text-gray-300 hidden sm:inline">Theme</span>
+          <div class="relative inline-block w-12 mr-2 align-middle select-none">
+            <input type="checkbox" id="toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+            <label for="toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-gray-300 dark:bg-gray-700 cursor-pointer transition-colors duration-300"></label>
+          </div>
+        </div>
+      </div>
+      <p class="mt-2 text-gray-600 dark:text-gray-400">A luxurious markdown notepad for inspired thoughts</p>
+    </header>
+
+    <!-- Editor -->
+    <div class="glass rounded-2xl shadow-lg overflow-hidden border border-white/10 mb-6">
+      <textarea id="editor" class="text-editor w-full p-6 font-mono text-gray-800 dark:text-gray-200 bg-transparent focus:outline-none focus:ring-2 focus:ring-ruby-500/30 focus:shadow-ruby-glow resize-none min-h-[60vh]" placeholder="# Welcome to Ruby Notes ✨\n\nStart writing in **markdown**...\n\n- Beautiful\n- Distraction-free\n- Elegant by design\n\n> Your thoughts deserve this luxury"></textarea>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="flex flex-wrap justify-between items-center glass rounded-2xl p-4 shadow-lg border border-white/10">
+      <div class="flex space-x-2 mb-3 sm:mb-0">
+        <button id="export-md" class="btn-ruby text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+          <i class="fas fa-file-code"></i>
+          <span>Export .md</span>
+        </button>
+        <button id="export-txt" class="btn-ruby text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+          <i class="fas fa-file-alt"></i>
+          <span>Export .txt</span>
+        </button>
+      </div>
+      
+      <div class="flex items-center space-x-4">
+        <span id="char-count" class="text-sm text-gray-600 dark:text-gray-400">0 characters</span>
+        <div class="relative group">
+          <div class="w-8 h-8 flex items-center justify-center text-ruby-600 hover-sparkle sparkle">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2L5 6V18L12 22L19 18V6L12 2Z" stroke="currentColor" stroke-width="2" fill="rgba(215, 38, 56, 0.1)"/>
+            </svg>
+          </div>
+          <div class="absolute bottom-full mb-2 right-0 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-3 text-sm hidden group-hover:block z-10 glass border border-white/10">
+            <p class="text-gray-700 dark:text-gray-300">Your notes are saved automatically in browser storage</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="text-center py-6 text-gray-500 dark:text-gray-400 text-sm">
+    <p>Ruby Notes — Crafted with ♥ for digital creatives</p>
+  </footer>
+
+  <script>
+    // Dark mode toggle
+    const toggle = document.getElementById('toggle');
+    const html = document.documentElement;
+    
+    // Check for saved theme preference
+    if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      html.classList.add('dark');
+      toggle.checked = true;
+    } else {
+      html.classList.remove('dark');
+      toggle.checked = false;
+    }
+    
+    toggle.addEventListener('change', () => {
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Editor functionality
+    const editor = document.getElementById('editor');
+    const charCount = document.getElementById('char-count');
+    
+    // Load saved content
+    editor.value = localStorage.getItem('ruby-notes-content') || '';
+    updateCharCount();
+    
+    // Auto-save
+    editor.addEventListener('input', () => {
+      localStorage.setItem('ruby-notes-content', editor.value);
+      updateCharCount();
+    });
+    
+    function updateCharCount() {
+      const count = editor.value.length;
+      charCount.textContent = `${count} character${count !== 1 ? 's' : ''}`;
+    }
+    
+    // Export functions
+    document.getElementById('export-md').addEventListener('click', () => {
+      exportFile('ruby-notes.md', editor.value);
+    });
+    
+    document.getElementById('export-txt').addEventListener('click', () => {
+      exportFile('ruby-notes.txt', editor.value);
+    });
+    
+    function exportFile(filename, text) {
+      const element = document.createElement('a');
+      element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+      element.setAttribute('download', filename);
+      element.style.display = 'none';
+      document.body.appendChild(element);
+      element.click();
+      document.body.removeChild(element);
+      
+      // Sparkle animation feedback
+      const btn = event.currentTarget;
+      btn.innerHTML = `<i class="fas fa-sparkles"></i><span>Exported!</span>`;
+      setTimeout(() => {
+        if (btn.id === 'export-md') {
+          btn.innerHTML = `<i class="fas fa-file-code"></i><span>Export .md</span>`;
+        } else {
+          btn.innerHTML = `<i class="fas fa-file-alt"></i><span>Export .txt</span>`;
+        }
+      }, 1500);
+    }
+  </script>
+</body>
+</html>
